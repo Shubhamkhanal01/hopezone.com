@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Details - Hope Zone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .game-detail {
+            margin: 120px 0 60px;
+        }
+        
+        .game-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .game-detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .game-image-large {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            object-fit: cover;
+            height: 400px;
+        }
+        
+        .game-info h1 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .game-description {
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        .game-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .game-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-bg);
+            padding: 8px 15px;
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .game-meta-item i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+        
+        .price-info {
+            margin: 25px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .price-info span {
+            color: var(--primary);
+            font-size: 24px;
+        }
+        
+        /* Booking Form Styles */
+        .booking-form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: 40px;
+            display: none;
+        }
+        
+        .booking-form h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .booking-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .booking-summary {
+            background-color: var(--primary-bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 25px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--primary-light);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .payment-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: 40px;
+            text-align: center;
+            display: none;
+        }
+        
+        .payment-container h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .qr-code-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 25px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 10px;
+        }
+        
+        .qr-code-img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .payment-instructions {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: var(--primary-bg);
+            border-radius: var(--radius);
+            text-align: left;
+        }
+        
+        .payment-instructions ol {
+            padding-left: 20px;
+        }
+        
+        .payment-instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 25px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Hope Zone</span>
+                </a>
+                
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="game.html" class="active">Games</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons desktop-only" id="authButtons">
+                    <a href="login.html" class="btn btn-outline">Log in</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+                
+                <div class="user-dropdown desktop-only" id="userDropdown" style="display: none;">
+                    <div class="user-dropdown-toggle" id="userDropdownToggle">
+                        <img id="navProfileImage" src="https://ui-avatars.com/api/?name=User&background=6a1b9a&color=fff" alt="Profile">
+                        <span id="navUsername">Username</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown-content" id="userDropdownContent">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="game.html" class="active">Games</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li class="mobile-auth" id="mobileAuthButtons">
+                        <a href="login.html" class="btn btn-outline">Log in</a>
+                        <a href="register.html" class="btn btn-primary">Register</a>
+                    </li>
+                    <li class="mobile-auth" id="mobileUserMenu" style="display: none;">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#" id="mobileLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="game-detail">
+            <div class="container">
+                <div class="game-detail-grid">
+                    <div class="game-image">
+                        <img id="gameImage" src="https://via.placeholder.com/600x400" alt="Game" class="game-image-large">
+                    </div>
+                    
+                    <div class="game-info">
+                        <h1 id="gameTitle">Game Title</h1>
+                        
+                        <div class="game-meta">
+                            <div class="game-meta-item">
+                                <i class="fas fa-users"></i>
+                                <span id="gameCategory">Category</span>
+                            </div>
+                            <div class="game-meta-item">
+                                <i class="fas fa-star"></i>
+                                <span id="gameRating">Rating</span>
+                            </div>
+                            <div class="game-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span id="gameReleaseYear">Release Year</span>
+                            </div>
+                        </div>
+                        
+                        <div class="game-description" id="gameDescription">
+                        </div>
+                        
+                        <div class="price-info">
+                            Hourly Rate: <span>RS 200</span> per hour
+                        </div>
+                        
+                        <button id="bookNowBtn" class="btn btn-primary">
+                            <i class="fas fa-gamepad"></i> Play Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="bookingFormContainer" class="booking-form-container">
+                    <div class="booking-form">
+                        <h2>Book Your Gaming Session</h2>
+                        
+                        <div class="success-message" id="bookingSuccessMessage">
+                            Booking successful! Please proceed to payment.
+                        </div>
+                        
+                        <form id="bookingForm">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="playDate">Date of Play</label>
+                                <input type="date" class="form-control" id="playDate" required min="">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="hours">Hours to Play</label>
+                                <input type="number" class="form-control" id="hours" placeholder="Number of hours" required min="1" max="8" value="1">
+                            </div>
+                            
+                            <div class="booking-summary">
+                                <h3>Booking Summary</h3>
+                                <div class="summary-item">
+                                    <span>Game:</span>
+                                    <span id="summaryGame">Game Title</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Date:</span>
+                                    <span id="summaryDate">Select a date</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Hours:</span>
+                                    <span id="summaryHours">1</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Rate per Hour:</span>
+                                    <span>RS 200</span>
+                                </div>
+                                <div class="summary-total">
+                                    <span>Total:</span>
+                                    <span id="summaryTotal">RS 200</span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full" style="margin-top: 20px;">
+                                Proceed to Payment
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div id="paymentContainer" class="payment-container">
+                    <h2>Complete Your Payment</h2>
+                    
+                    <div class="success-message" id="paymentSuccessMessage">
+                        Payment successful! Your booking is confirmed.
+                    </div>
+                    
+                    <div class="qr-code-container">
+                        <img id="qrCodeImage" src="Qr code.jpg" alt="Payment QR Code" class="qr-code-img">
+                    </div>
+                    
+                    <div class="price-info">
+                        Amount: <span id="paymentAmount">RS 200</span>
+                    </div>
+                    
+                    <div class="payment-instructions">
+                        <h3>How to Pay:</h3>
+                        <ol>
+                            <li>Open your (Bank, Esewa, Khalti, etc.)</li>
+                            <li>Scan the QR code above</li>
+                            <li>Verify the amount and recipient name (Hope Zone)</li>
+                            <li>Complete the payment using your UPI PIN</li>
+                            <li>Once payment is complete, click the "Confirm Payment" button below</li>
+                        </ol>
+                    </div>
+                    
+                    <button id="confirmPaymentBtn" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Confirm Payment
+                    </button>
+                    
+                    <p style="margin-top: 15px;">
+                        <a href="#" id="cancelPaymentBtn">Cancel and return to booking</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Hope Zone</span>
+                    </div>
+                    <p>Your ultimate gaming destination</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="game.html">Games</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <p>9766683727</p>
+                                </div>
+                        <li><a href="mailto:info@hopezone.com">info@hopezone.com</a></li>
+                        <li><a href="https://www.facebook.com/share/14sA8EbeqD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="https://www.instagram.com/hope_zone.5?igsh=M3g3czY2dXp3Z3pi" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@hope_zone8?_t=ZS-8uIpFKkBOh0&_r=1" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Hope Zone. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        const games = {
+            gta5: {
+                title: 'Grand Theft Auto V',
+                image: 'Gta 5.webp',
+                category: 'Action-Adventure',
+                rating: '4.9/5',
+                releaseYear: '2013',
+                description: 'Experience the criminal underworld of Los Santos in this open-world action-adventure game. GTA V features a massive, detailed world and three distinct protagonists with interweaving stories. Enjoy heists, races, and countless activities in this modern classic.'
+            },
+            fifa: {
+                title: 'FIFA',
+                image: 'Fifa.webp',
+                category: 'Sports',
+                rating: '4.7/5',
+                releaseYear: '2023',
+                description: 'Play the beautiful game with the most realistic football simulation. FIFA features all your favorite teams and players from around the world. Enjoy career mode, ultimate team, or quick matches with friends in local multiplayer.'
+            },
+            forza: {
+                title: 'Forza Horizon',
+                image: 'Forza.jpg',
+                category: 'Racing',
+                rating: '4.8/5',
+                releaseYear: '2021',
+                description: 'Race through stunning open-world environments in the ultimate racing experience. Forza Horizon offers hundreds of cars, dynamic weather, changing seasons, and a variety of race types. Customize your vehicles and compete online with other players.'
+            }
+        };
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameId = urlParams.get('game') || 'gta5';
+        const game = games[gameId] || games.gta5;
+        
+        const today = new Date();
+        const formatDate = date => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+        
+        document.getElementById('playDate').min = formatDate(today);
+        
+        document.getElementById('gameTitle').textContent = game.title;
+        document.getElementById('gameImage').src = game.image;
+        document.getElementById('gameImage').alt = game.title;
+        document.getElementById('gameCategory').textContent = game.category;
+        document.getElementById('gameRating').textContent = game.rating;
+        document.getElementById('gameReleaseYear').textContent = game.releaseYear;
+        document.getElementById('gameDescription').textContent = game.description;
+        document.getElementById('summaryGame').textContent = game.title;
+        
+        const hoursInput = document.getElementById('hours');
+        const summaryHours = document.getElementById('summaryHours');
+        const summaryTotal = document.getElementById('summaryTotal');
+        const summaryDate = document.getElementById('summaryDate');
+        
+        hoursInput.addEventListener('input', updateSummary);
+        document.getElementById('playDate').addEventListener('change', e => {
+            const date = new Date(e.target.value);
+            summaryDate.textContent = date.toLocaleDateString();
+            updateSummary();
+        });
+        
+        function updateSummary() {
+            const hours = parseInt(hoursInput.value) || 1;
+            const hourlyRate = 200;
+            const total = hours * hourlyRate;
+            
+            summaryHours.textContent = hours;
+            summaryTotal.textContent = `₹${total}`;
+            
+            
+            document.getElementById('paymentAmount').textContent = `₹${total}`;
+        }
+        
+        document.getElementById('bookNowBtn').addEventListener('click', () => {
+            document.getElementById('bookingFormContainer').style.display = 'block';
+            document.getElementById('bookingFormContainer').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const playDate = document.getElementById('playDate').value;
+            const hours = parseInt(hoursInput.value) || 1;
+            const hourlyRate = 200;
+            const totalCost = hours * hourlyRate;
+            
+            let userId = null;
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData) {
+                userId = userData._id;
+            }
+            
+            try {
+                try {
+                    const response = await fetch('http://localhost:5000/api/bookings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId,
+                            name,
+                            phoneNumber,
+                            game: game.title,
+                            hours,
+                            playDate
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        console.warn('Backend server not available. Proceeding anyway for demonstration.');
+                    } else {
+                        console.log('Booking created successfully!');
+                    }
+                } catch (apiError) {
+                    console.warn('Backend server not available. Proceeding anyway for demonstration.');
+                }
+                
+                document.getElementById('paymentContainer').style.display = 'block';
+                document.getElementById('paymentContainer').scrollIntoView({ behavior: 'smooth' });
+                console.log('Payment container should be visible now');
+                
+            } catch (error) {
+                console.error('Booking error:', error);
+                alert('There was an error processing your booking. Please try again.');
+            }
+        });
+        
+        document.getElementById('confirmPaymentBtn').addEventListener('click', () => {
+            document.getElementById('paymentSuccessMessage').style.display = 'block';
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
+        });
+        
+        document.getElementById('cancelPaymentBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('paymentContainer').style.display = 'none';
+        });
+        
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthUI();
+            updateSummary();
+        });
+        
+        function updateAuthUI() {
+            const isLoggedIn = localStorage.getItem('authToken') !== null;
+            const authButtons = document.getElementById('authButtons');
+            const userDropdown = document.getElementById('userDropdown');
+            const mobileAuthButtons = document.getElementById('mobileAuthButtons');
+            const mobileUserMenu = document.getElementById('mobileUserMenu');
+            
+            if (isLoggedIn) {
+                if (authButtons) authButtons.style.display = 'none';
+                if (mobileAuthButtons) mobileAuthButtons.style.display = 'none';
+                
+                if (userDropdown) userDropdown.style.display = 'inline-block';
+                if (mobileUserMenu) mobileUserMenu.style.display = 'block';
+                
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                if (userData) {
+                    const navUsername = document.getElementById('navUsername');
+                    const navProfileImage = document.getElementById('navProfileImage');
+                    
+                    if (navUsername) {
+                        navUsername.textContent = userData.name || 'User';
+                    }
+                    
+                    if (navProfileImage) {
+                        const profileImageUrl = localStorage.getItem('userProfileImage');
+                        if (profileImageUrl) {
+                            navProfileImage.src = profileImageUrl;
+                        } else {
+                            const name = encodeURIComponent(userData.name || 'User');
+                            navProfileImage.src = `https://ui-avatars.com/api/?name=${name}&background=6a1b9a&color=fff`;
+                        }
+                    }
+                    
+                    const nameInput = document.getElementById('name');
+                    if (nameInput && userData.name) {
+                        nameInput.value = userData.name;
+                    }
+                }
+            } else {
+                if (authButtons) authButtons.style.display = 'flex';
+                if (mobileAuthButtons) mobileAuthButtons.style.display = 'block';
+                
+                if (userDropdown) userDropdown.style.display = 'none';
+                if (mobileUserMenu) mobileUserMenu.style.display = 'none';
+            }
+        }
+        
+        const userDropdownToggle = document.getElementById('userDropdownToggle');
+        const userDropdownContent = document.getElementById('userDropdownContent');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+        
+        if (userDropdownToggle) {
+            userDropdownToggle.addEventListener('click', () => {
+                userDropdownContent.classList.toggle('show');
+            });
+        }
+        
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', logout);
+        }
+        
+        if (mobileLogoutBtn) {
+            mobileLogoutBtn.addEventListener('click', logout);
+        }
+        
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.reload();
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Hope Zone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 8rem 0 3rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .page-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .page-hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .contact-section {
+            padding: 4rem 0;
+            background-color: #f8f9fa;
+        }
+        
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .contact-form-container,
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .contact-form {
+            background-color: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+        
+        .map-pin {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .map-pin i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Responsive styles for contact page */
+        @media (max-width: 992px) {
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .contact-info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                order: -1; /* Show contact info first on mobile */
+            }
+            
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .page-hero {
+                padding: 6rem 0 2rem;
+            }
+            
+            .contact-section {
+                padding: 2rem 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Hope Zone</span>
+                </a>
+                
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="game.html">Games</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html" class="active">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons desktop-only" id="authButtons">
+                    <a href="login.html" class="btn btn-outline">Log in</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+                
+                <div class="user-dropdown desktop-only" id="userDropdown" style="display: none;">
+                    <div class="user-dropdown-toggle" id="userDropdownToggle">
+                        <img id="navProfileImage" src="https://ui-avatars.com/api/?name=User&background=6a1b9a&color=fff" alt="Profile">
+                        <span id="navUsername">Username</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown-content" id="userDropdownContent">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="game.html">Games</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                    <li class="mobile-auth" id="mobileAuthButtons">
+                        <a href="login.html" class="btn btn-outline">Log in</a>
+                        <a href="register.html" class="btn btn-primary">Register</a>
+                    </li>
+                    <li class="mobile-auth" id="mobileUserMenu" style="display: none;">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#" id="mobileLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>We'd love to hear from you! Get in touch with our team</p>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-info-grid">
+                    <div class="contact-form-container">
+                        <div class="section-header">
+                            <i class="fas fa-envelope"></i>
+                            <h2>Send Us a Message</h2>
+                        </div>
+                        
+                        <div class="contact-form">
+                            <form id="contactForm">
+                                <div class="form-group">
+                                    <label for="name">Your Name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <input type="text" class="form-control" id="subject" placeholder="Enter subject">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea class="form-control" id="message" rows="5" placeholder="Enter your message" required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="section-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h2>Contact Information</h2>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <p>9766683727</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <p>contact@hopezone.com</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>Kohalpur, Nepalgunj Road<br></p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-clock"></i>
+                                    <p>Sunday- Friday: 9AM - 7PM<br></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-header">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <h2>Our Location</h2>
+                        </div>
+                        
+                        <div class="map-placeholder">
+                            <div class="map-pin">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Hope Zone</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-outline btn-full" id="getDirectionsBtn">Get Directions</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Hope Zone</span>
+                    </div>
+                    <p>The ultimate gaming destination with premium setups and the latest games.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="game.html">Games</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://www.facebook.com/share/14sA8EbeqD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="https://www.instagram.com/hope_zone.5?igsh=M3g3czY2dXp3Z3pi" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@hope_zone8?_t=ZS-8uIpFKkBOh0&_r=1" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> Hope Zone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            e.target.reset();
+        });
+        
+        document.getElementById('getDirectionsBtn').addEventListener('click', () => {
+            const address = "123 Gaming Street, Digital City, Tech Hub, TX 75001";
+            const mapsUrl = `https://www.google.com/maps/place/Hope+Zone/@28.1934858,81.6851716,768m/data=!3m1!1e3!4m15!1m8!3m7!1s0x3998656f0e68e0ad:0xbdcab195e1ad4271!2sHope+Zone!8m2!3d28.1934858!4d81.6877465!10e1!16s%2Fg%2F11x0g_qx6j!3m5!1s0x3998656f0e68e0ad:0xbdcab195e1ad4271!8m2!3d28.1934858!4d81.6877465!16s%2Fg%2F11x0g_qx6j?entry=ttu&g_ep=EgoyMDI1MDMwNC4wIKXMDSoASAFQAw%3D%3D=1&query=${encodeURIComponent(address)}`;
+            window.open(mapsUrl, '_blank');
+        });
+        
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthUI();
+        });
+        
+        const userDropdownToggle = document.getElementById('userDropdownToggle');
+        const userDropdownContent = document.getElementById('userDropdownContent');
+        
+        if (userDropdownToggle) {
+            userDropdownToggle.addEventListener('click', () => {
+                userDropdownContent.classList.toggle('show');
+            });
+        }
+        
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+        
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', logout);
+        }
+        
+        if (mobileLogoutBtn) {
+            mobileLogoutBtn.addEventListener('click', logout);
+        }
+        
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.reload();
+        }
+        
+        function updateAuthUI() {
+            const isLoggedIn = localStorage.getItem('authToken') !== null;
+            const authButtons = document.getElementById('authButtons');
+            const userDropdown = document.getElementById('userDropdown');
+            const mobileAuthButtons = document.getElementById('mobileAuthButtons');
+            const mobileUserMenu = document.getElementById('mobileUserMenu');
+            
+            if (isLoggedIn) {
+                if (authButtons) authButtons.style.display = 'none';
+                if (mobileAuthButtons) mobileAuthButtons.style.display = 'none';
+                
+                if (userDropdown) userDropdown.style.display = 'inline-block';
+                if (mobileUserMenu) mobileUserMenu.style.display = 'block';
+                
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                if (userData) {
+                    const navUsername = document.getElementById('navUsername');
+                    const navProfileImage = document.getElementById('navProfileImage');
+                    
+                    if (navUsername) {
+                        navUsername.textContent = userData.name || 'User';
+                    }
+                    
+                    if (navProfileImage) {
+                        const profileImageUrl = localStorage.getItem('userProfileImage');
+                        if (profileImageUrl) {
+                            navProfileImage.src = profileImageUrl;
+                        } else {
+                            const name = encodeURIComponent(userData.name || 'User');
+                            navProfileImage.src = `https://ui-avatars.com/api/?name=${name}&background=6a1b9a&color=fff`;
+                        }
+                    }
+                }
+            } else {
+                if (authButtons) authButtons.style.display = 'flex';
+                if (mobileAuthButtons) mobileAuthButtons.style.display = 'block';
+                
+                if (userDropdown) userDropdown.style.display = 'none';
+                if (mobileUserMenu) mobileUserMenu.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html> 

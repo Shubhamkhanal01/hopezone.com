@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Hope Zone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .profile-page {
+            padding: 8rem 0 4rem;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-header h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-header p {
+            color: var(--text-muted);
+        }
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        .profile-sidebar, 
+        .profile-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .profile-image-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: var(--shadow);
+        }
+        
+        .image-edit-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .image-edit-icon:hover {
+            transform: scale(1.1);
+            background-color: var(--primary-dark);
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .detail-value .edit-btn {
+            color: var(--primary);
+            cursor: pointer;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: var(--primary-bg);
+            font-size: 14px;
+            display: none;
+        }
+        
+        .detail-item:hover .edit-btn {
+            display: inline-block;
+        }
+        
+        .detail-input {
+            display: none;
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--primary-light);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .detail-actions {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .image-upload-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed var(--primary-light);
+            border-radius: var(--radius);
+            background-color: var(--primary-bg);
+        }
+        
+        .btn-cancel {
+            background-color: #9e9e9e;
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #757575;
+        }
+        
+        .success-message {
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message {
+            color: #c62828;
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .image-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 10px auto;
+            display: none;
+            object-fit: cover;
+            border: 3px solid var(--primary-light);
+            padding: 3px;
+        }
+        
+        .gaming-preferences {
+            margin-bottom: 30px;
+        }
+        
+        .preference-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            margin: 5px;
+            background-color: var(--primary-bg);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .game-history-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .game-history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .game-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-details {
+            flex: 1;
+        }
+        
+        .game-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .game-date {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .game-hours {
+            font-weight: 500;
+            color: var(--primary);
+            padding: 3px 10px;
+            background-color: var(--primary-bg);
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+        
+        .drop-zone {
+            border: 2px dashed var(--primary-light);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+            background-color: rgba(106, 27, 154, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .profile-grid {
+                grid-template-columns: 250px 1fr;
+                gap: 1.5rem;
+            }
+            
+            .profile-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-container {
+                padding: 0 15px;
+            }
+            
+            .detail-value .edit-btn {
+                display: inline-block;
+            }
+            
+            .profile-header h1 {
+                font-size: 2rem;
+            }
+            
+            .profile-image-container {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .profile-page {
+                padding: 6rem 0 3rem;
+            }
+            
+            .profile-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-card {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+            }
+            
+            .game-history-item {
+                flex-wrap: wrap;
+            }
+            
+            .game-hours {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Hope Zone</span>
+                </a>
+                
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="game.html">Games</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="user-dropdown desktop-only">
+                    <div class="user-dropdown-toggle" id="userDropdownToggle">
+                        <img id="navProfileImage" src="https://ui-avatars.com/api/?name=User&background=6a1b9a&color=fff" alt="Profile">
+                        <span id="navUsername">Username</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown-content" id="userDropdownContent">
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="game.html">Games</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li>
+                        <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                    </li>
+                    <li>
+                        <a href="#" id="mobileLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h1>My Profile</h1>
+                    <p>Manage your account information and gaming preferences</p>
+                </div>
+                
+                <div class="profile-grid">
+                    <div class="profile-sidebar">
+                        <div class="profile-card">
+                            <div class="profile-image-container">
+                                <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=6a1b9a&color=fff&size=150" alt="Profile" class="profile-image">
+                                <div class="image-edit-icon" id="editProfileImage">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="section-title">
+                                <i class="fas fa-user"></i>
+                                Personal Information
+                            </div>
+                            
+                            <div id="successMessage" class="success-message">
+                                Your changes have been saved successfully!
+                            </div>
+                            
+                            <div id="errorMessage" class="error-message">
+                                An error occurred. Please try again.
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Name</div>
+                                <div class="detail-value">
+                                    <span id="nameValue">John Doe</span>
+                                    <button class="edit-btn" id="editNameBtn">
+                                        <i class="fas fa-pencil-alt"></i> Edit
+                                    </button>
+                                </div>
+                                <input type="text" id="nameInput" class="detail-input" value="John Doe">
+                                <div class="detail-actions" id="nameActions">
+                                    <button class="btn btn-primary" id="saveNameBtn">Save</button>
+                                    <button class="btn btn-cancel" id="cancelNameBtn">Cancel</button>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Email</div>
+                                <div class="detail-value">
+                                    <span id="emailValue">john.doe@example.com</span>
+                                    <button class="edit-btn" id="editEmailBtn">
+                                        <i class="fas fa-pencil-alt"></i> Edit
+                                    </button>
+                                </div>
+                                <input type="email" id="emailInput" class="detail-input" value="john.doe@example.com">
+                                <div class="detail-actions" id="emailActions">
+                                    <button class="btn btn-primary" id="saveEmailBtn">Save</button>
+                                    <button class="btn btn-cancel" id="cancelEmailBtn">Cancel</button>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Phone</div>
+                                <div class="detail-value">
+                                    <span id="phoneValue">+1 (555) 123-4567</span>
+                                    <button class="edit-btn" id="editPhoneBtn">
+                                        <i class="fas fa-pencil-alt"></i> Edit
+                                    </button>
+                                </div>
+                                <input type="tel" id="phoneInput" class="detail-input" value="+1 (555) 123-4567">
+                                <div class="detail-actions" id="phoneActions">
+                                    <button class="btn btn-primary" id="savePhoneBtn">Save</button>
+                                    <button class="btn btn-cancel" id="cancelPhoneBtn">Cancel</button>
+                                </div>
+                            </div>
+                            
+                            <div id="imageUploadContainer" class="image-upload-container">
+                                <div class="drop-zone" id="dropZone">
+                                    <span>Drop your image here or click to browse</span>
+                                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                                </div>
+                                <img id="imagePreview" class="image-preview">
+                                <div class="detail-actions">
+                                    <button class="btn btn-primary" id="saveImageBtn">Upload</button>
+                                    <button class="btn btn-cancel" id="cancelImageBtn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="section-title">
+                                <i class="fas fa-gamepad"></i>
+                                Gaming Preferences
+                            </div>
+                            
+                            <div class="gaming-preferences">
+                                <div class="detail-label">Favorite Genres</div>
+                                <div>
+                                    <span class="preference-tag">Action</span>
+                                    <span class="preference-tag">Adventure</span>
+                                    <span class="preference-tag">RPG</span>
+                                    <span class="preference-tag">FPS</span>
+                                </div>
+                            </div>
+                            
+                            <div class="gaming-preferences">
+                                <div class="detail-label">Preferred Platform</div>
+                                <div>
+                                    <span class="preference-tag">PC</span>
+                                    <span class="preference-tag">PlayStation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-main">
+                        <div class="profile-card">
+                            <div class="section-title">
+                                <i class="fas fa-history"></i>
+                                Gaming History
+                            </div>
+                            
+                            <div class="game-history-item">
+                                <div class="game-icon">
+                                    <img src="https://via.placeholder.com/60x60/6a1b9a/ffffff?text=GTA" alt="Game">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">Grand Theft Auto V</div>
+                                    <div class="game-date">Played on: June 15, 2023</div>
+                                </div>
+                                <div class="game-hours">2 hours</div>
+                            </div>
+                            
+                            <div class="game-history-item">
+                                <div class="game-icon">
+                                    <img src="https://via.placeholder.com/60x60/6a1b9a/ffffff?text=FIFA" alt="Game">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">FIFA 23</div>
+                                    <div class="game-date">Played on: June 12, 2023</div>
+                                </div>
+                                <div class="game-hours">1.5 hours</div>
+                            </div>
+                            
+                            <div class="game-history-item">
+                                <div class="game-icon">
+                                    <img src="https://via.placeholder.com/60x60/6a1b9a/ffffff?text=COD" alt="Game">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">Call of Duty: Modern Warfare</div>
+                                    <div class="game-date">Played on: June 10, 2023</div>
+                                </div>
+                                <div class="game-hours">3 hours</div>
+                            </div>
+                            
+                            <div class="game-history-item">
+                                <div class="game-icon">
+                                    <img src="https://via.placeholder.com/60x60/6a1b9a/ffffff?text=MC" alt="Game">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">Minecraft</div>
+                                    <div class="game-date">Played on: June 5, 2023</div>
+                                </div>
+                                <div class="game-hours">2.5 hours</div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <div class="section-title">
+                                <i class="fas fa-calendar-check"></i>
+                                Upcoming Bookings
+                            </div>
+                            
+                            <div class="game-history-item">
+                                <div class="game-icon">
+                                    <img src="https://via.placeholder.com/60x60/6a1b9a/ffffff?text=FIFA" alt="Game">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">FIFA 23</div>
+                                    <div class="game-date">Booked for: June 20, 2023 - 4:00 PM</div>
+                                </div>
+                                <div class="game-hours">2 hours</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Hope Zone</span>
+                    </div>
+                    <p>Your ultimate gaming destination</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="game.html">Games</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://www.facebook.com/share/14sA8EbeqD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="https://www.instagram.com/hope_zone.5?igsh=M3g3czY2dXp3Z3pi" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@hope_zone8?_t=ZS-8uIpFKkBOh0&_r=1" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> Hope Zone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        // Check if user is logged in, redirect to login if not
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html';
+            } else {
+                loadUserProfile();
+                setupEditFieldListeners();
+                setupImageUpload();
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // User dropdown toggle
+        const userDropdownToggle = document.getElementById('userDropdownToggle');
+        const userDropdownContent = document.getElementById('userDropdownContent');
+        
+        userDropdownToggle.addEventListener('click', () => {
+            userDropdownContent.classList.toggle('show');
+        });
+        
+        // Close the dropdown when clicking outside
+        window.addEventListener('click', (event) => {
+            if (!event.target.matches('.user-dropdown-toggle') && 
+                !event.target.matches('.user-dropdown-toggle *')) {
+                if (userDropdownContent.classList.contains('show')) {
+                    userDropdownContent.classList.remove('show');
+                }
+            }
+        });
+        
+        // Setup drag and drop for image upload
+        function setupImageUpload() {
+            const changePhotoBtn = document.getElementById('changePhotoBtn');
+            const profileImage = document.getElementById('profileImage');
+            const imageUploadContainer = document.getElementById('imageUploadContainer');
+            const imageUpload = document.getElementById('imageUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            const uploadImageBtn = document.getElementById('uploadImageBtn');
+            const cancelUploadBtn = document.getElementById('cancelUploadBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const dropZone = document.getElementById('dropZone');
+            
+            // Show image upload container
+            changePhotoBtn.addEventListener('click', () => {
+                imageUploadContainer.style.display = 'block';
+                scrollToElement(imageUploadContainer);
+            });
+            
+            profileImage.addEventListener('click', () => {
+                imageUploadContainer.style.display = 'block';
+                scrollToElement(imageUploadContainer);
+            });
+            
+            // Cancel upload
+            cancelUploadBtn.addEventListener('click', () => {
+                imageUploadContainer.style.display = 'none';
+                imageUpload.value = '';
+                imagePreview.style.display = 'none';
+            });
+            
+            // Handle file selection
+            imageUpload.addEventListener('change', handleFileSelect);
+            
+            // Setup drag and drop
+            dropZone.addEventListener('click', () => {
+                imageUpload.click();
+            });
+            
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('active');
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('active');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('active');
+                
+                if (e.dataTransfer.files.length) {
+                    imageUpload.files = e.dataTransfer.files;
+                    handleFileSelect({target: imageUpload});
+                }
+            });
+            
+            // Handle file selection
+            function handleFileSelect(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const file = e.target.files[0];
+                    
+                    // Check if file is an image
+                    if (!file.type.match('image.*')) {
+                        showError('Please select an image file (jpg, png, etc.)');
+                        imageUpload.value = '';
+                        return;
+                    }
+                    
+                    // Check file size (max 5MB)
+                    if (file.size > 5 * 1024 * 1024) {
+                        showError('Image file size must be less than 5MB');
+                        imageUpload.value = '';
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = (e) => {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            // Upload image
+            uploadImageBtn.addEventListener('click', () => {
+                if (imageUpload.files && imageUpload.files[0]) {
+                    // In a real application, you would upload the file to the server here
+                    const newImageUrl = URL.createObjectURL(imageUpload.files[0]);
+                    profileImage.src = newImageUrl;
+                    
+                    // Update the profile image in the navbar
+                    document.getElementById('navProfileImage').src = newImageUrl;
+                    
+                    // Store the image URL in localStorage for demo purposes
+                    localStorage.setItem('userProfileImage', newImageUrl);
+                    
+                    // Show success message
+                    showSuccess('Profile picture updated successfully!');
+                    
+                    // Hide upload container
+                    imageUploadContainer.style.display = 'none';
+                    imageUpload.value = '';
+                    imagePreview.style.display = 'none';
+                }
+            });
+            
+            // Delete account
+            document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                    // In a real application, you would call an API to delete the account
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userData');
+                    localStorage.removeItem('userProfileImage');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+        
+        // Setup edit field listeners
+        function setupEditFieldListeners() {
+            // Get all edit buttons
+            const editButtons = document.querySelectorAll('.edit-btn');
+            
+            // Add click event to each edit button
+            editButtons.forEach(button => {
+                const field = button.getAttribute('data-field');
+                
+                button.addEventListener('click', () => {
+                    // Show input field and actions, hide value
+                    const valueElem = button.parentElement;
+                    const inputElem = document.getElementById(`${field}Input`);
+                    const actionsElem = valueElem.nextElementSibling.nextElementSibling;
+                    
+                    // Set input value from current value
+                    inputElem.value = document.getElementById(`${field}Value`).textContent;
+                    
+                    // Show input and actions, hide value
+                    valueElem.style.display = 'none';
+                    inputElem.style.display = 'block';
+                    actionsElem.style.display = 'block';
+                    
+                    // Focus on input
+                    inputElem.focus();
+                });
+            });
+            
+            // Get all save buttons
+            const saveButtons = document.querySelectorAll('.save-btn');
+            
+            // Add click event to each save button
+            saveButtons.forEach(button => {
+                const field = button.getAttribute('data-field');
+                
+                button.addEventListener('click', () => {
+                    saveField(field);
+                });
+            });
+            
+            // Get all cancel buttons
+            const cancelButtons = document.querySelectorAll('.cancel-btn');
+            
+            // Add click event to each cancel button
+            cancelButtons.forEach(button => {
+                const field = button.getAttribute('data-field');
+                
+                button.addEventListener('click', () => {
+                    cancelEdit(field);
+                });
+            });
+            
+            // Handle pressing enter in input fields
+            const inputs = document.querySelectorAll('.detail-input');
+            
+            inputs.forEach(input => {
+                const field = input.id.replace('Input', '');
+                
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        saveField(field);
+                    }
+                });
+            });
+        }
+        
+        // Save field changes
+        function saveField(field) {
+            const valueElem = document.getElementById(`${field}Value`);
+            const inputElem = document.getElementById(`${field}Input`);
+            const valueContainer = valueElem.parentElement;
+            const actionsElem = valueContainer.nextElementSibling.nextElementSibling;
+            
+            // Validate input
+            if (!inputElem.value.trim()) {
+                showError('This field cannot be empty');
+                return;
+            }
+            
+            if (field === 'email' && !isValidEmail(inputElem.value)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+            
+            // Update displayed value
+            valueElem.textContent = inputElem.value.trim();
+            
+            // Update in localStorage
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            
+            if (field === 'username') {
+                userData.name = inputElem.value.trim();
+                document.getElementById('navUsername').textContent = userData.name;
+                document.getElementById('profileName').textContent = userData.name;
+            } else if (field === 'email') {
+                userData.email = inputElem.value.trim();
+            } else if (field === 'phone') {
+                userData.phone = inputElem.value.trim();
+            }
+            
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Show success message
+            showSuccess('Your profile has been updated successfully!');
+            
+            // Reset display
+            valueContainer.style.display = 'flex';
+            inputElem.style.display = 'none';
+            actionsElem.style.display = 'none';
+        }
+        
+        // Cancel field edit
+        function cancelEdit(field) {
+            const valueElem = document.getElementById(`${field}Value`);
+            const inputElem = document.getElementById(`${field}Input`);
+            const valueContainer = valueElem.parentElement;
+            const actionsElem = valueContainer.nextElementSibling.nextElementSibling;
+            
+            // Reset display
+            valueContainer.style.display = 'flex';
+            inputElem.style.display = 'none';
+            actionsElem.style.display = 'none';
+        }
+        
+        // Load user profile function
+        function loadUserProfile() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData) {
+                // Set username in navbar and profile
+                document.getElementById('navUsername').textContent = userData.name || 'User';
+                document.getElementById('usernameValue').textContent = userData.name || 'Not set';
+                document.getElementById('emailValue').textContent = userData.email || 'Not set';
+                document.getElementById('phoneValue').textContent = userData.phone || 'Not set';
+                document.getElementById('profileName').textContent = userData.name || 'User';
+                
+                // Set member since date
+                const date = new Date(userData.createdAt || Date.now());
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('memberSinceValue').textContent = `Member since ${date.toLocaleDateString(undefined, options)}`;
+                
+                // Set profile image if exists in localStorage
+                const profileImageUrl = localStorage.getItem('userProfileImage');
+                if (profileImageUrl) {
+                    profileImage.src = profileImageUrl;
+                    document.getElementById('navProfileImage').src = profileImageUrl;
+                } else {
+                    // Set default avatar with user's name
+                    const name = encodeURIComponent(userData.name || 'User');
+                    const defaultImage = `https://ui-avatars.com/api/?name=${name}&background=6a1b9a&color=fff`;
+                    profileImage.src = defaultImage;
+                    document.getElementById('navProfileImage').src = defaultImage;
+                }
+            }
+        }
+        
+        // Helper function to show success message
+        function showSuccess(message) {
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide error message if shown
+            errorMessage.style.display = 'none';
+            
+            // Show success message
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Helper function to show error message
+        function showError(message) {
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide success message if shown
+            successMessage.style.display = 'none';
+            
+            // Show error message
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Helper function to scroll to an element
+        function scrollToElement(element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Helper function to validate email
+        function isValidEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+        document.getElementById('mobileLogoutBtn').addEventListener('click', logout);
+        
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.href = 'index.html';
+        }
+        
+        // Check if user is logged in helper function
+        function isLoggedIn() {
+            return localStorage.getItem('authToken') !== null;
+        }
+    </script>
+</body>
+</html> 
